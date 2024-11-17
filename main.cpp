@@ -94,6 +94,20 @@ class NamedObject {
 };
 
 
+class Const {
+    public:
+        Const(int val) : constValue(val) {}
+    private:
+        const int constValue;
+};
+
+class Ref {
+    public:
+        Ref(int& ref) : refValue(ref) {}
+    private:
+        int& refValue;
+};
+
 
 int main(int argc, char** argv) {
     // Item 4
@@ -110,6 +124,14 @@ int main(int argc, char** argv) {
     NamedObject<int> no1("Smallest Prime Number", 2);
     NamedObject<int> no2(no1);
     no2 = no1;
+
+    Const a(10), b(20);
+    // b = a; // error: copy assignment operator isn't generated
+
+    int x = 10, y = 20;
+    Ref obj1(x);
+    Ref obj2(y);
+    // obj1 = obj2; // error: copy ctor isn't generated
 
     return 0;
 }
