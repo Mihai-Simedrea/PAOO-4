@@ -109,6 +109,32 @@ class Ref {
 };
 
 
+// Item 6 
+
+/*
+Instead, declare the copy constructor and the
+copy assignment operator private. By declaring a member function
+explicitly, you prevent compilers from generating their own version,
+*/
+
+
+class Uncopyable {
+    protected:
+        Uncopyable() {}          // Allow construction
+        ~Uncopyable() {}         // Allow destruction
+    private:
+        Uncopyable(const Uncopyable&);            // Prevent copying
+        Uncopyable& operator=(const Uncopyable&); // Prevent assignment
+};
+
+// Make HomeForSale non-copyable by inherit from Uncopyable
+class HomeForSale : private Uncopyable {
+    public:
+        HomeForSale() {}
+        ~HomeForSale() {}
+};
+
+
 int main(int argc, char** argv) {
     // Item 4
 
@@ -132,6 +158,14 @@ int main(int argc, char** argv) {
     Ref obj1(x);
     Ref obj2(y);
     // obj1 = obj2; // error: copy ctor isn't generated
+
+
+    // Item 6
+    HomeForSale h1;
+    // HomeForSale h2(h1); // compilation error
+
+    HomeForSale h3;
+    // h3 = h1; // compilation error
 
     return 0;
 }
