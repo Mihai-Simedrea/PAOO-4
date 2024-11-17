@@ -46,12 +46,45 @@ All that has to be done is to move each non-local static object into its
 own function, where it’s declared static.
 */
 
+class FileSystem {
+    public:
+        std::size_t numDisks() const { return 5; }
+    };
+
+    FileSystem& getFileSystem() {
+        static FileSystem fs;
+        return fs;
+}
+
+class Directory {
+    public:
+        Directory() {
+            disks_ = getFileSystem().numDisks();
+        }
+
+        void showDisks() const {
+            std::cout << "Number of disks: " << disks_ << std::endl;
+        }
+
+    private:
+        std::size_t disks_;
+    };
+
+    Directory& getTempDirectory() {
+        static Directory tempDir;
+        return tempDir;
+}
+
+
 int main(int argc, char** argv) {
     // Item 4
 
     std::list<PhoneNumber> phones = { PhoneNumber("+40724231204"), PhoneNumber("+40724531241") };
     ABEntry entry("Steve Jobs", "2101 Waverley St, Palo Alto, CA", phones);
     entry.display();
+
+    Directory& dir = getTempDirectory();
+    dir.showDisks();
 
     return 0;
 }
