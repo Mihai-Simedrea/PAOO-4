@@ -2,6 +2,8 @@
 #include <string>
 #include <list>
 
+/// Item 4
+
 // but for consistency, it's often best to initialize everything via member initialization.
 
 class PhoneNumber {
@@ -76,6 +78,23 @@ class Directory {
 }
 
 
+/// Item 5
+
+template<typename T>
+class NamedObject {
+    public:
+        // the default ctor won't exist anymore
+        // only copy assignment operator, copy ctor, destructor
+        NamedObject(const std::string& name, const T& value)
+            : nameValue(name), objectValue(value) {}
+
+    private:
+        std::string nameValue;
+        T objectValue;
+};
+
+
+
 int main(int argc, char** argv) {
     // Item 4
 
@@ -85,6 +104,12 @@ int main(int argc, char** argv) {
 
     Directory& dir = getTempDirectory();
     dir.showDisks();
+
+
+    // Item 5
+    NamedObject<int> no1("Smallest Prime Number", 2);
+    NamedObject<int> no2(no1);
+    no2 = no1;
 
     return 0;
 }
